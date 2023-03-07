@@ -1,0 +1,15 @@
+{
+  "yarn-project": {
+    "buildDir": "yarn-project",
+    "dockerfile": "Dockerfile",
+    "rebuildPatterns": ["^yarn-project/Dockerfile", "^yarn-project/yarn.lock"],
+    "dependencies": []
+  },
+  "async-map": {
+    "buildDir": "yarn-project",
+    "projectDir": "yarn-project/async-map",
+    "dockerfile": "async-map/Dockerfile",
+    "rebuildPatterns": ["^yarn-project/async-map/"],
+    "dependencies": ["yarn-project"]
+  }
+}
