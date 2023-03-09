@@ -4,6 +4,7 @@
   "private": true,
   "workspaces": [
     "async-map",
+    "mutex",
     "eslint-config",
     "prettier-config"
   ],

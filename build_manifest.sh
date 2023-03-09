@@ -5,5 +5,6 @@
 # TODO: Generate this from build_manifest.json
 
 PROJECTS=(
-  async-map:yarn-project
+  async-map:yarn-project 
+  mutex:yarn-project
 )

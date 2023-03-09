@@ -35,7 +35,8 @@ yarn install --immutable
 cd ..
 
 PROJECTS=(
-  "yarn-project/async-map:yarn build"
+  "yarn-project/async-map:yarn build" 
+  "yarn-project/mutex:yarn build"
 )
 
 for E in "${PROJECTS[@]}"; do

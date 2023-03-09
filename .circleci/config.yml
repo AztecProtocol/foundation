@@ -86,6 +86,17 @@ jobs:
           name: "Build and test"
           command: build async-map
 
+  mutex:
+    machine:
+      image: ubuntu-2004:202010-01
+    resource_class: large
+    steps:
+      - *checkout
+      - *setup_env
+      - run:
+          name: "Build and test"
+          command: build mutex
+
 # Repeatable config for defining the workflow below.
 tag_regex: &tag_regex /v[0-9]+(\.[0-9]+)*(-[a-zA-Z-]+\.[0-9]+)?/
 tag_filter: &tag_filter
@@ -104,3 +115,4 @@ workflows:
       - yarn-project:
           filters: *tag_filter
       - async-map: *yarn_project
+      - mutex: *yarn_project

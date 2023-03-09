@@ -24,6 +24,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:eslint-config"\
       },\
       {\
+        "name": "@aztec/mutex",\
+        "reference": "workspace:mutex"\
+      },\
+      {\
         "name": "@aztec/prettier-config",\
         "reference": "workspace:prettier-config"\
       }\
@@ -34,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@aztec/async-map", ["workspace:async-map"]],\
       ["@aztec/eslint-config", ["workspace:eslint-config"]],\
       ["@aztec/foundation", ["workspace:."]],\
+      ["@aztec/mutex", ["workspace:mutex"]],\
       ["@aztec/prettier-config", ["workspace:prettier-config"]]\
     ],\
     "fallbackPool": [\
@@ -99,6 +104,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@aztec/foundation", "workspace:."],\
             ["eslint", "npm:8.35.0"],\
             ["prettier", "npm:2.8.4"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@aztec/mutex", [\
+        ["workspace:mutex", {\
+          "packageLocation": "./mutex/",\
+          "packageDependencies": [\
+            ["@aztec/mutex", "workspace:mutex"],\
+            ["@aztec/eslint-config", "workspace:eslint-config"],\
+            ["@jest/globals", "npm:29.5.0"],\
+            ["@rushstack/eslint-patch", "npm:1.2.0"],\
+            ["@types/jest", "npm:29.4.0"],\
+            ["@types/node", "npm:18.14.6"],\
+            ["jest", "virtual:d444cb926c41fa5bf1c9d98132e94800c1da80a2aa2dc4bf031782814990fad19b9b948524f628c5b7280d6b76c75d0b79c22f7c6280955355227e8f810d2d2a#npm:28.1.3"],\
+            ["ts-jest", "virtual:d444cb926c41fa5bf1c9d98132e94800c1da80a2aa2dc4bf031782814990fad19b9b948524f628c5b7280d6b76c75d0b79c22f7c6280955355227e8f810d2d2a#npm:28.0.8"],\
+            ["ts-node", "virtual:d444cb926c41fa5bf1c9d98132e94800c1da80a2aa2dc4bf031782814990fad19b9b948524f628c5b7280d6b76c75d0b79c22f7c6280955355227e8f810d2d2a#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
           ],\
           "linkType": "SOFT"\
