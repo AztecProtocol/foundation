@@ -6,4 +6,6 @@
 
 PROJECTS=(
   async-map:yarn-project
+  fifo:yarn-project
+  bigint-buffer:yarn-project
 )

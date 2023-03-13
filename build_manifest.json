@@ -11,5 +11,19 @@
     "dockerfile": "async-map/Dockerfile",
     "rebuildPatterns": ["^yarn-project/async-map/"],
     "dependencies": ["yarn-project"]
+  },
+  "fifo": {
+    "buildDir": "yarn-project",
+    "projectDir": "yarn-project/fifo",
+    "dockerfile": "fifo/Dockerfile",
+    "rebuildPatterns": ["^yarn-project/fifo/"],
+    "dependencies": ["yarn-project"]
+  },
+  "bigint-buffer": {
+    "buildDir": "yarn-project",
+    "projectDir": "yarn-project/bigint-buffer",
+    "dockerfile": "bigint-buffer/Dockerfile",
+    "rebuildPatterns": ["^yarn-project/bigint-buffer/"],
+    "dependencies": ["yarn-project"]
   }
 }

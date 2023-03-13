@@ -85,6 +85,16 @@ jobs:
       - run:
           name: "Build and test"
           command: build async-map
+  fifo:
+    machine:
+      image: ubuntu-2004:202010-01
+    resource_class: large
+    steps:
+      - *checkout
+      - *setup_env
+      - run:
+          name: "Build and test"
+          command: build fifo
 
 # Repeatable config for defining the workflow below.
 tag_regex: &tag_regex /v[0-9]+(\.[0-9]+)*(-[a-zA-Z-]+\.[0-9]+)?/
@@ -104,3 +114,5 @@ workflows:
       - yarn-project:
           filters: *tag_filter
       - async-map: *yarn_project
+      - fifo: *yarn_project
+      - bigint-buffer: *yarn_project

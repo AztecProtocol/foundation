@@ -36,6 +36,8 @@ cd ..
 
 PROJECTS=(
   "yarn-project/async-map:yarn build"
+  "yarn-project/bigint-buffer:yarn build"
+  "yarn-project/fifo:yarn build"
 )
 
 for E in "${PROJECTS[@]}"; do
