@@ -5,7 +5,9 @@
   "workspaces": [
     "async-map",
     "eslint-config",
-    "prettier-config"
+    "prettier-config",
+    "fifo",
+    "bigint-buffer"
   ],
   "prettier": "./prettier-config",
   "devDependencies": {
