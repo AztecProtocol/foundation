@@ -3,6 +3,8 @@ RUN apk update && apk add --no-cache build-base git python3 curl bash jq
 WORKDIR /usr/src/yarn-project
 # We only want to copy the package.json's, to ensure we only rebuild this image if project dependencies changed.
 COPY async-map/package.json async-map/package.json
+COPY fifo/package.json fifo/package.json
+COPY bigint-buffer/package.json bigint-buffer/package.json
 # All workspaces use the linting config, so always include it.
 COPY eslint-config eslint-config
 COPY prettier-config prettier-config
