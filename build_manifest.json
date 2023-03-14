@@ -1,8 +1,0 @@
-{
-  "yarn-project": {
-    "buildDir": "yarn-project",
-    "dockerfile": "Dockerfile",
-    "rebuildPatterns": ["^yarn-project/Dockerfile", "^yarn-project/yarn.lock"],
-    "dependencies": []
-  }
-}

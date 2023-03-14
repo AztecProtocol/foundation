@@ -1,11 +1,11 @@
 FROM node:18-alpine
 RUN apk update && apk add --no-cache build-base git python3 curl bash jq
-WORKDIR /usr/src/yarn-project
+WORKDIR /usr/src
 
-FROM 278380418400.dkr.ecr.eu-west-2.amazonaws.com/yarn-project AS builder
+FROM 278380418400.dkr.ecr.eu-west-2.amazonaws.com AS builder
 
 COPY foundation foundation
-WORKDIR /usr/src/yarn-project/foundation
+WORKDIR /usr/src/foundation
 RUN yarn build && yarn formatting && yarn test
 
 # Prune dev dependencies. See comment in base image.
@@ -13,8 +13,8 @@ RUN yarn cache clean
 RUN yarn workspaces focus --production > /dev/null
 
 FROM node:18-alpine
-COPY --from=builder /usr/src/yarn-project/foundation /usr/src/yarn-project/foundation
-WORKDIR /usr/src/yarn-project/foundation
+COPY --from=builder /usr/src/foundation /usr/src/foundation
+WORKDIR /usr/src/foundation
 ENTRYPOINT ["yarn"]
 
 # All workspaces use the linting config, so always include it.

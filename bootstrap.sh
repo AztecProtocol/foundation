@@ -30,11 +30,8 @@ fi
 nvm install
 
 # Until we push .yarn/cache, we still need to install.
-cd yarn-project
 yarn install --immutable
-cd ..
-
-PROJECTS=("yarn-project:yarn build")
+yarn build
 
 for E in "${PROJECTS[@]}"; do
   echo

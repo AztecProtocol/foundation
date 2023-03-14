@@ -2,6 +2,7 @@
   "name": "@aztec/foundation",
   "packageManager": "yarn@3.4.1",
   "private": true,
+  "type": "module",
   "exports": {
     ".": "./index.js",
     "./eslint": "./eslintrc.js",
@@ -26,6 +27,9 @@
     },
     "testRegex": "./src/.*\\.test\\.ts$",
     "rootDir": "./src"
+  },
+  "dependencies": {
+    "@aztec/barretenberg": "^2.1.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.3",
