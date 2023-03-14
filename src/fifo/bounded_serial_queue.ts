@@ -1,4 +1,4 @@
-import { Semaphore, SerialQueue } from '@aztec/barretenberg/fifo';
+import { Semaphore, SerialQueue } from "@aztec/barretenberg/fifo";
 
 /**
  * Leverages the unbounded SerialQueue and Semaphore to create a SerialQueue that will block when putting an item
@@ -42,8 +42,8 @@ export class BoundedSerialQueue {
           this.semaphore.release();
         }
       })
-      .catch(err => {
-        console.error('BoundedSerialQueue handler exception:', err);
+      .catch((err) => {
+        console.error("BoundedSerialQueue handler exception:", err);
       });
   }
 

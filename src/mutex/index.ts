@@ -1,6 +1,6 @@
-import { MutexDatabase } from './mutex_database.js';
+import { MutexDatabase } from "./mutex_database.js";
 
-export * from './mutex_database.js';
+export * from "./mutex_database.js";
 
 export class Mutex {
   private id = 0;
@@ -11,7 +11,7 @@ export class Mutex {
     private readonly name: string,
     private readonly timeout = 5000,
     private readonly tryLockInterval = 2000,
-    private readonly pingInterval = 2000,
+    private readonly pingInterval = 2000
   ) {}
 
   public async lock(untilAcquired = true) {
@@ -25,7 +25,7 @@ export class Mutex {
       if (!untilAcquired) {
         return false;
       }
-      await new Promise(resolve => setTimeout(resolve, this.tryLockInterval));
+      await new Promise((resolve) => setTimeout(resolve, this.tryLockInterval));
     }
   }
 

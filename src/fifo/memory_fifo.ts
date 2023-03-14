@@ -31,10 +31,10 @@ export class MemoryFifo<T> {
 
       if (timeout) {
         setTimeout(() => {
-          const index = this.waiting.findIndex(r => r === resolve);
+          const index = this.waiting.findIndex((r) => r === resolve);
           if (index > -1) {
             this.waiting.splice(index, 1);
-            const err = new Error('Timeout getting item from queue.');
+            const err = new Error("Timeout getting item from queue.");
             reject(err);
           }
         }, timeout * 1000);
@@ -62,7 +62,7 @@ export class MemoryFifo<T> {
    */
   public end() {
     this.flushing = true;
-    this.waiting.forEach(resolve => resolve(null));
+    this.waiting.forEach((resolve) => resolve(null));
   }
 
   /**
@@ -73,7 +73,7 @@ export class MemoryFifo<T> {
   public cancel() {
     this.flushing = true;
     this.items = [];
-    this.waiting.forEach(resolve => resolve(null));
+    this.waiting.forEach((resolve) => resolve(null));
   }
 
   /**
@@ -89,7 +89,7 @@ export class MemoryFifo<T> {
         await handler(item);
       }
     } catch (err) {
-      console.error('Queue handler exception:', err);
+      console.error("Queue handler exception:", err);
     }
   }
 }
