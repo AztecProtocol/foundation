@@ -29,6 +29,8 @@ fi
 \. ~/.nvm/nvm.sh
 nvm install
 
+git submodule update --init --recursive
+
 yarn install --immutable
 yarn build
 
