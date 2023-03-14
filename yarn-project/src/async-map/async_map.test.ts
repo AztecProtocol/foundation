@@ -1,4 +1,4 @@
-import { asyncMap } from './index.js';
+import { asyncMap } from '.';
 
 describe('asyncMap', () => {
   test('execute list item sequentially', async () => {

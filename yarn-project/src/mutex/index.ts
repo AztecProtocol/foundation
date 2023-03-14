@@ -1,6 +1,6 @@
-import { MutexDatabase } from './mutex_database.js';
+import { MutexDatabase } from './mutex_database';
 
-export { MutexDatabase } from './mutex_database.js';
+export { MutexDatabase } from './mutex_database';
 
 export class Mutex {
   private id = 0;

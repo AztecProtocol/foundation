@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
-import { Mutex } from './index.js';
-import { MutexDatabase } from './mutex_database.js';
+import { Mutex } from './index';
+import { MutexDatabase } from './mutex_database';
 
 export function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
