@@ -29,20 +29,9 @@ fi
 \. ~/.nvm/nvm.sh
 nvm install
 
-# Until we push .yarn/cache, we still need to install.
+# # Until we push .yarn/cache, we still need to install.
 yarn install --immutable
 yarn build
-
-for E in "${PROJECTS[@]}"; do
-  echo
-  ARR=(${E//:/ })
-  DIR=${ARR[0]}
-  COMMAND=${ARR[@]:1}
-  echo "Bootstrapping $DIR: $COMMAND"
-  pushd $DIR > /dev/null
-  $COMMAND
-  popd > /dev/null
-done
 
 echo
 echo "Success!"
