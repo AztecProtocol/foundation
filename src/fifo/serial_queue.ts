@@ -1,4 +1,4 @@
-import { MemoryFifo } from "@aztec/barretenberg/fifo";
+import { MemoryFifo } from '@aztec/barretenberg/fifo';
 
 /**
  * A more specialised fifo queue that enqueues functions to execute. Enqueued functions are executed in serial.
@@ -8,7 +8,7 @@ export class SerialQueue {
   private runningPromise!: Promise<void>;
 
   public start() {
-    this.runningPromise = this.queue.process((fn) => fn());
+    this.runningPromise = this.queue.process(fn => fn());
   }
 
   public length() {
