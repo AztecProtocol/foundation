@@ -64,7 +64,7 @@ setup_env: &setup_env
     command: ./build-system/scripts/setup_env "$CIRCLE_SHA1" "$CIRCLE_TAG" "$CIRCLE_JOB" "$CIRCLE_REPOSITORY_URL" "$CIRCLE_BRANCH"
 
 jobs:
-  yarn-project:
+  build-foundation:
     machine:
       image: ubuntu-2004:202010-01
     resource_class: large
@@ -73,16 +73,14 @@ jobs:
       - *setup_env
       - run:
           name: "Build"
-          command: build yarn-project
+          command: yarn build
 
 # Repeatable config for defining the workflow below.
 tag_regex: &tag_regex /v[0-9]+(\.[0-9]+)*(-[a-zA-Z-]+\.[0-9]+)?/
 tag_filter: &tag_filter
   tags:
     only: *tag_regex
-yarn_project: &yarn_project
-  requires:
-    - yarn-project
+foundation: &foundation
   filters: *tag_filter
 
 workflows:
@@ -90,4 +88,4 @@ workflows:
     when:
       equal: [system, << pipeline.parameters.workflow >>]
     jobs:
-      - yarn-project: filters: *tag_filter
+      - build-foundation
