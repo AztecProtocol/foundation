@@ -5,8 +5,7 @@ WORKDIR /usr/src
 # We only want to copy the package.json's, to ensure we only rebuild this image if project dependencies changed.
 COPY package.json package.json
 # All workspaces use the linting config, so always include it.
-COPY .pnp.cjs .pnp.loader.mjs .yarnrc.yml package.json tsconfig.json yarn.lock ./
-COPY .yarn .yarn
+COPY .pnp.cjs .pnp.loader.mjs package.json tsconfig.json yarn.lock ./
 
 FROM 278380418400.dkr.ecr.eu-west-2.amazonaws.com AS builder
 
