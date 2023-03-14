@@ -29,7 +29,7 @@ fi
 \. ~/.nvm/nvm.sh
 nvm install
 
-# # Until we push .yarn/cache, we still need to install.
+# Until we push .yarn/cache, we still need to install.
 yarn install --immutable
 yarn build
 
