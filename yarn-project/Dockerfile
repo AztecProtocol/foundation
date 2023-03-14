@@ -1,9 +1,22 @@
 FROM node:18-alpine
 RUN apk update && apk add --no-cache build-base git python3 curl bash jq
 WORKDIR /usr/src/yarn-project
-# We only want to copy the package.json's, to ensure we only rebuild this image if project dependencies changed.
-COPY async-map/package.json async-map/package.json
-COPY mutex/package.json mutex/package.json
+
+FROM 278380418400.dkr.ecr.eu-west-2.amazonaws.com/yarn-project AS builder
+
+COPY foundation foundation
+WORKDIR /usr/src/yarn-project/foundation
+RUN yarn build && yarn formatting && yarn test
+
+# Prune dev dependencies. See comment in base image.
+RUN yarn cache clean
+RUN yarn workspaces focus --production > /dev/null
+
+FROM node:18-alpine
+COPY --from=builder /usr/src/yarn-project/foundation /usr/src/yarn-project/foundation
+WORKDIR /usr/src/yarn-project/foundation
+ENTRYPOINT ["yarn"]
+
 # All workspaces use the linting config, so always include it.
 COPY eslint-config eslint-config
 COPY prettier-config prettier-config

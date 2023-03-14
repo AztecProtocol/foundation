@@ -13,6 +13,10 @@
     "declarationMap": true,
     "importHelpers": true,
     "resolveJsonModule": true,
-    "composite": true
-  }
+    "composite": true,
+    "outDir": "dest",
+    "rootDir": "src",
+    "tsBuildInfoFile": ".tsbuildinfo"
+  },
+  "include": ["src"]
 }
