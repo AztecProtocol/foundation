@@ -1,1 +1,1 @@
-export class InterruptError extends Error { }
+export class InterruptError extends Error {}

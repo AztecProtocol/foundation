@@ -1,6 +1,6 @@
 export class TimeoutTask<T> {
   private interruptPromise!: Promise<any>;
-  private interrupt = () => { };
+  private interrupt = () => {};
   private totalTime = 0;
 
   constructor(private fn: () => Promise<T>, private timeout = 0, fnName = "") {
