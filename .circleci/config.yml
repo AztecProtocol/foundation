@@ -81,7 +81,6 @@ tag_filter: &tag_filter
   tags:
     only: *tag_regex
 foundation: &foundation
-  filters: *tag_filter
 
 workflows:
   system:
