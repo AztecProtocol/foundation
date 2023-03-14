@@ -2,6 +2,12 @@ FROM node:18-alpine
 RUN apk update && apk add --no-cache build-base git python3 curl bash jq
 WORKDIR /usr/src
 
+# We only want to copy the package.json's, to ensure we only rebuild this image if project dependencies changed.
+COPY package.json package.json
+# All workspaces use the linting config, so always include it.
+COPY .pnp.cjs .pnp.loader.mjs .yarnrc.yml package.json tsconfig.json yarn.lock ./
+COPY .yarn .yarn
+
 FROM 278380418400.dkr.ecr.eu-west-2.amazonaws.com AS builder
 
 COPY foundation foundation
@@ -17,11 +23,6 @@ COPY --from=builder /usr/src/foundation /usr/src/foundation
 WORKDIR /usr/src/foundation
 ENTRYPOINT ["yarn"]
 
-# All workspaces use the linting config, so always include it.
-COPY eslint-config eslint-config
-COPY prettier-config prettier-config
-COPY .pnp.cjs .pnp.loader.mjs .yarnrc.yml package.json tsconfig.json yarn.lock ./
-COPY .yarn .yarn
 # Although we're attempting to be "zero-install", in practice we still need to build arch specific packages.
 RUN yarn --immutable
 # If everything's worked properly, we should no longer need access to the network.
