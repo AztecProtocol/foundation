@@ -29,12 +29,16 @@
     "testRegex": "./src/.*\\.test\\.ts$",
     "rootDir": "./src"
   },
+  "dependencies": {
+    "detect-node": "^2.1.0"
+  },
   "devDependencies": {
     "@jest/globals": "^29.4.3",
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/debug": "^4.1.7",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.7.23",
+    "@types/detect-node": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
     "eslint": "^8.21.0",
