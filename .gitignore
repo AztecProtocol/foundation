@@ -1,3 +1,7 @@
 dest
 node_modules
 .cache
+.env
+*.log
+*.swp
+.tsbuildinfo

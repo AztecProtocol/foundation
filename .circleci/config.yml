@@ -5,25 +5,12 @@
 # - checkout: A custom checkout step to reduce the amount of data downloaded to improve speed.
 # - setup_env: Sets up the common environment used by all build steps.
 #
-# Two CCI executors are used:
-# - docker (small): Used only to launch external EC2 instances for big workloads. It's the cheapest option.
-# - machine (large): Used for building in CCI itself. 4cpus, 15GB has the optimal power/cost ratio.
-#
-# The docker executor uses a custom image build in `build_image`. It's specifically streamlined for fast download
-# with just enough tools to execute the build system, and launch EC2 instances etc.
-#
-# There are some `join` steps that are just noops. They are just used to produce cleaner graph rendering in CCI.
 
 version: 2.1
 parameters:
   workflow:
     type: string
     default: "system"
-  target:
-    type: enum
-    default: "dev"
-    description: The environment to trigger redeploys to
-    enum: ["dev", "stage"]
 
 # This build step checks out the code from the repository. It has a hardcoded readonly key to allow the checkout.
 # Initially it just fetches the repo metadata for the current commit hash to a depth of 50 commits.
@@ -64,18 +51,7 @@ setup_env: &setup_env
     command: ./build-system/scripts/setup_env "$CIRCLE_SHA1" "$CIRCLE_TAG" "$CIRCLE_JOB" "$CIRCLE_REPOSITORY_URL" "$CIRCLE_BRANCH"
 
 jobs:
-  yarn-project:
-    machine:
-      image: ubuntu-2004:202010-01
-    resource_class: large
-    steps:
-      - *checkout
-      - *setup_env
-      - run:
-          name: "Build"
-          command: build yarn-project
-
-  async-map:
+  foundation:
     machine:
       image: ubuntu-2004:202010-01
     resource_class: large
@@ -84,23 +60,14 @@ jobs:
       - *setup_env
       - run:
           name: "Build and test"
-          command: build async-map
-
-# Repeatable config for defining the workflow below.
-tag_regex: &tag_regex /v[0-9]+(\.[0-9]+)*(-[a-zA-Z-]+\.[0-9]+)?/
-tag_filter: &tag_filter
-  tags:
-    only: *tag_regex
-yarn_project: &yarn_project
-  requires:
-    - yarn-project
-  filters: *tag_filter
+          command: build foundation
 
 workflows:
   system:
     when:
       equal: [system, << pipeline.parameters.workflow >>]
     jobs:
-      - yarn-project:
-          filters: *tag_filter
-      - async-map: *yarn_project
+      - foundation:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*(-[a-zA-Z-]+\.[0-9]+)?/

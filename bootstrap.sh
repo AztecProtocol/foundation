@@ -29,25 +29,10 @@ fi
 \. ~/.nvm/nvm.sh
 nvm install
 
-# Until we push .yarn/cache, we still need to install.
-cd yarn-project
+git submodule update --init --recursive
+
 yarn install --immutable
-cd ..
-
-PROJECTS=(
-  "yarn-project/async-map:yarn build"
-)
-
-for E in "${PROJECTS[@]}"; do
-  echo
-  ARR=(${E//:/ })
-  DIR=${ARR[0]}
-  COMMAND=${ARR[@]:1}
-  echo "Bootstrapping $DIR: $COMMAND"
-  pushd $DIR > /dev/null
-  $COMMAND
-  popd > /dev/null
-done
+yarn build
 
 echo
 echo "Success!"
