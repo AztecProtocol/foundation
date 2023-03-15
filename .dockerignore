@@ -1,5 +1,4 @@
-*/data*
-*/dest
-*/.tsbuildinfo
-**/Dockerfile*
-**/node_modules
+dest
+node_modules
+Dockerfile
+.tsbuildinfo

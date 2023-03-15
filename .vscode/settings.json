@@ -2,7 +2,6 @@
   "search.exclude": {
     ".pnp.*": true
   },
-  "typescript.enablePromptUseWorkspaceTsdk": true,
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

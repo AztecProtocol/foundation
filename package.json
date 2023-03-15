@@ -29,9 +29,6 @@
     "testRegex": "./src/.*\\.test\\.ts$",
     "rootDir": "./src"
   },
-  "dependencies": {
-    "@aztec/barretenberg": "^2.1.0"
-  },
   "devDependencies": {
     "@jest/globals": "^29.4.3",
     "@rushstack/eslint-patch": "^1.1.4",
