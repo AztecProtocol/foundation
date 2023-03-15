@@ -4,12 +4,12 @@ import { EventEmitter } from 'events';
 import { isTransferDescriptor, TransferDescriptor } from '../interface/transferable.js';
 
 type FilterOutAttributes<Base> = {
-  [Key in keyof Base]: Base[Key] extends (...any) => any ? Base[Key] : never;
+  [Key in keyof Base]: Base[Key] extends (...any: any) => any ? Base[Key] : never;
 };
 
-type PromisifyFunction<F extends (...any) => any> = (...args: Parameters<F>) => Promise<ReturnType<F>>;
+type PromisifyFunction<F extends (...any: any) => any> = (...args: Parameters<F>) => Promise<ReturnType<F>>;
 
-type Promisify<Base extends { [key: string]: (...any) => any }> = {
+type Promisify<Base extends { [key: string]: (...any: any) => any }> = {
   [Key in keyof Base]: ReturnType<Base[Key]> extends Promise<any> ? Base[Key] : PromisifyFunction<Base[Key]>;
 };
 
@@ -32,7 +32,7 @@ type MakeFunctionTransferrable<TFunction extends (...args: any) => any> = (
   ...args: TFunction extends (...args: infer P) => any ? TransferTypes<P> : never
 ) => ReturnType<TFunction>;
 
-type Transferrable<Base extends { [key: string]: (...any) => any }> = {
+type Transferrable<Base extends { [key: string]: (...any: any) => any }> = {
   [Key in keyof Base]: MakeFunctionTransferrable<Base[Key]>;
 };
 
