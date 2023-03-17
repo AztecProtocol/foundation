@@ -1,4 +1,4 @@
-import { toBigIntBE, toBufferBE } from '../bigint_buffer/index.js';
+import { toBigIntBE, toBufferBE } from '../bigint-buffer/index.js';
 
 // For serializing bool.
 export function boolToByte(b: boolean) {
