@@ -3,6 +3,7 @@ import { MemoryFifo } from './memory_fifo.js';
 
 const TEST_ARRAY = [1, 2, 3, 4, 5];
 const GET_TIMEOUT = 1337;
+const VALUE_TO_ADD = 6;
 
 describe('MemoryFifo', () => {
   let memoryFifo: MemoryFifo<number>;
@@ -74,7 +75,7 @@ describe('MemoryFifo', () => {
       });
     });
 
-    describe('fills fifo and gets all values + 1', () => {
+    describe('fills fifo and tries getting more values than the ones stored', () => {
       beforeEach(() => {
         fillFifo();
       });
@@ -95,8 +96,8 @@ describe('MemoryFifo', () => {
       beforeEach(async () => {
         fillFifo();
         memoryFifo.end();
-        memoryFifo.put(6);
-        exitArray = await flushFifo(6);
+        memoryFifo.put(VALUE_TO_ADD);
+        exitArray = await flushFifo(TEST_ARRAY.length + 1);
       });
 
       it('should return null for the sixth value', () => {
@@ -112,13 +113,31 @@ describe('MemoryFifo', () => {
       beforeEach(async () => {
         fillFifo();
         memoryFifo.cancel();
-        memoryFifo.put(6);
-        exitArray = await flushFifo(6);
+        memoryFifo.put(VALUE_TO_ADD);
+        exitArray = await flushFifo(TEST_ARRAY.length + 1);
       });
 
       it('should return null for all the values', () => {
         expect(exitArray).toEqual([...TEST_ARRAY.map(_ => null), null]);
       });
+    });
+  });
+
+  describe('integration', () => {
+    let values: (number | null)[];
+
+    beforeEach(async () => {
+      fillFifo();
+      await flushFifo(1);
+      memoryFifo.put(VALUE_TO_ADD);
+      memoryFifo.end();
+      values = await flushFifo(TEST_ARRAY.length);
+    });
+
+    it('should store values, remove values, store values, end', () => {
+      const validationArray = [...TEST_ARRAY];
+      validationArray.shift();
+      expect(values).toEqual([...validationArray, 6]);
     });
   });
 
