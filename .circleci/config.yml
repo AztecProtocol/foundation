@@ -7,10 +7,6 @@
 #
 
 version: 2.1
-parameters:
-  workflow:
-    type: string
-    default: "system"
 
 # This build step checks out the code from the repository. It has a hardcoded readonly key to allow the checkout.
 # Initially it just fetches the repo metadata for the current commit hash to a depth of 50 commits.
@@ -24,11 +20,6 @@ checkout: &checkout
       mkdir -p .ssh
       chmod 0700 .ssh
       ssh-keyscan -t rsa github.com >> .ssh/known_hosts
-
-      # A read only key for cloning the repository.
-      echo $GIT_CHECKOUT_KEY | base64 -d > .ssh/id_rsa
-
-      chmod 0600 .ssh/id_rsa
 
       # IF YOU'RE CHANGING THIS, YOU ALSO WANT TO CHANGE: build-system/remote_build/remote_build
       # Shallow checkout this commit.
@@ -63,11 +54,11 @@ jobs:
           command: build foundation
 
 workflows:
-  system:
-    when:
-      equal: [system, << pipeline.parameters.workflow >>]
+  build:
     jobs:
       - foundation:
           filters:
             tags:
               only: /v[0-9]+(\.[0-9]+)*(-[a-zA-Z-]+\.[0-9]+)?/
+          context:
+            - build
