@@ -1,15 +1,10 @@
 import { jest } from '@jest/globals';
 import { BoundedSerialQueue } from './index.js';
 
-const TIMEOUT = 4e3;
+const TIMEOUT = 500;
 const QUEUE_SIZE = 5;
 
 describe('BoundedSerialQueue', () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-    jest.spyOn(global, 'setTimeout');
-  });
-
   describe('put', () => {
     let boundedSerialQueue: BoundedSerialQueue;
 
@@ -25,6 +20,8 @@ describe('BoundedSerialQueue', () => {
 
     describe('max out the queue', () => {
       it('should max out the queue and timeout', async () => {
+        let timeoutRef: NodeJS.Timeout;
+
         const addpromises = new Promise<boolean>(async resolve => {
           for (let i = 0; i < QUEUE_SIZE + 1; i++) {
             await boundedSerialQueue.put(() => new Promise(() => jest.fn()));
@@ -33,14 +30,18 @@ describe('BoundedSerialQueue', () => {
         });
 
         const timeoutpromise = new Promise<boolean>(async resolve => {
-          setTimeout(() => {
+          timeoutRef = setTimeout(() => {
             resolve(true);
           }, TIMEOUT);
         });
 
-        Promise.race([addpromises, timeoutpromise]).then((value: boolean) => {
-          expect(value).toBe(true);
-          expect(boundedSerialQueue.length()).toBe(QUEUE_SIZE);
+        await new Promise<void>(resolve => {
+          Promise.race([addpromises, timeoutpromise]).then((value: boolean) => {
+            expect(value).toBe(true);
+            expect(boundedSerialQueue.length()).toBe(QUEUE_SIZE);
+            clearTimeout(timeoutRef);
+            resolve();
+          });
         });
       });
     });
@@ -69,14 +70,33 @@ describe('BoundedSerialQueue', () => {
 
     beforeEach(async () => {
       boundedSerialQueue = new BoundedSerialQueue(QUEUE_SIZE);
-      await boundedSerialQueue.put(() => new Promise(() => jest.fn()));
     });
 
-    it('should await until the queue is empty before resuming', () => {});
-  });
+    it('should await until the queue is empty before resuming', async () => {
+      const testfn = jest.fn();
+      let timeoutRef: NodeJS.Timeout;
 
-  afterAll(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+      const syncpointPromise = new Promise(async resolve => {
+        await boundedSerialQueue.syncPoint();
+        resolve(true);
+      });
+
+      const timeoutPromise = new Promise<boolean>(async resolve => {
+        timeoutRef = setTimeout(() => {
+          resolve(false);
+        }, TIMEOUT);
+      });
+
+      boundedSerialQueue.exec(() => new Promise<void>(() => testfn()));
+      boundedSerialQueue.start();
+
+      await new Promise<void>(resolve => {
+        Promise.race([syncpointPromise, timeoutPromise]).then(result => {
+          expect(result).toBe(true);
+          clearTimeout(timeoutRef);
+          resolve();
+        });
+      });
+    });
   });
 });
