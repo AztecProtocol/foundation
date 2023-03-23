@@ -34,6 +34,7 @@
     "debug": "^4.3.4",
     "detect-node": "^2.1.0"
   },
+  "prettier": "./src/prettier-config/index.js",
   "devDependencies": {
     "@jest/globals": "^29.4.3",
     "@rushstack/eslint-patch": "^1.1.4",
