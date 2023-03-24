@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { JsonRpcServer } from '../server/json_rpc_server.js';
-import { TestState, TestNote } from '../test/test_state.js';
+import { TestState, TestNote } from '../fixtures/test_state.js';
 import { createJsonRpcClient } from './json_rpc_client.js';
 
 test('test an RPC function over client', async () => {

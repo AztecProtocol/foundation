@@ -1,6 +1,6 @@
 import { ClassConverter } from './class_converter.js';
 import { convertFromJsonObj, convertToJsonObj } from './convert.js';
-import { TestNote } from './test/test_state.js';
+import { TestNote } from './fixtures/test_state.js';
 
 import { Buffer } from 'buffer';
 
