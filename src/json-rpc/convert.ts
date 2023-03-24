@@ -16,7 +16,7 @@ export function convertFromJsonObj(cc: ClassConverter, obj: any): any {
     return Buffer.from(obj.data, 'base64');
   }
   // Is this a convertible type?
-  if (typeof obj.type === 'string' && typeof obj.data === 'string') {
+  if (typeof obj.type === 'string' && cc.isRegisteredClassName(obj.type)) {
     return cc.toClassObj(obj);
   }
 
@@ -52,7 +52,7 @@ export function convertToJsonObj(cc: ClassConverter, obj: any): any {
     return { type: 'Buffer', data: obj.toString('base64') };
   }
   // Is this a convertible type?
-  if (obj.constructor.fromString) {
+  if (cc.isRegisteredClass(obj.constructor)) {
     return cc.toJsonObj(obj);
   }
   // Is this an array?

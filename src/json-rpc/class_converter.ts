@@ -73,6 +73,23 @@ export class ClassConverter {
     this.toName.set(class_, type);
     this.toClass.set(type, class_);
   }
+
+  /**
+   * Does this type name have a registered class?
+   * @param type - The type name.
+   * @returns If there's a registered class.
+   */
+  isRegisteredClassName(type: string) {
+    return this.toClass.has(type);
+  }
+  /**
+   * Is this class object registered?
+   * @param obj - The class object.
+   * @returns If it is a registered class.
+   */
+  isRegisteredClass(obj: any) {
+    return this.toName.has(obj);
+  }
   /**
    * Convert a JSON-like object to a class object.
    * @param jsonObj - An object encoding a class.
