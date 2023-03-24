@@ -1,9 +1,7 @@
 jest.mock('../sleep/index.js');
 import { jest } from '@jest/globals';
 import { backoffGenerator, retry } from './index.js';
-import * as sleepmodule from '../sleep/index.js';
-
-console.log(sleepmodule);
+import * as sleepModule from '../sleep/index.js';
 
 const TEST_VALUE = 'test-value-';
 
@@ -35,18 +33,18 @@ describe('retry', () => {
 
     beforeEach(() => {
       generator = mockGenerator;
-      jest.useFakeTimers();
+      jest.useFakeTimers({ doNotFake: ['performance'] });
       jest.spyOn(global, 'setTimeout');
-      // jest.spyOn(sleepmodule, 'sleep').mockImplementation((ms: number) => {
-      //   console.log('asdf');
-      //   return new Promise<void>(() => {});
-      // });
+      jest.spyOn(sleepModule, 'sleep').mockImplementation((ms: number) => {
+        console.log('asdf');
+        return new Promise<void>(() => {});
+      });
     });
 
     xit('should return values', async () => {
       for (let i = 0; i < 5; i++) {
         const result = await retry(
-          async () => new Promise<string>(resolve => resolve(`${TEST_VALUE}${i}`)),
+          () => new Promise<string>(resolve => resolve(`${TEST_VALUE}${i}`)),
           'mock',
           generator(),
         );
@@ -55,11 +53,7 @@ describe('retry', () => {
     });
 
     it('should return values', async () => {
-      const promise = retry(
-        async () => new Promise<string>((_, reject) => reject(`${TEST_VALUE}`)),
-        'mock',
-        generator(),
-      );
+      const promise = retry(() => new Promise<string>((_, reject) => reject(`${TEST_VALUE}`)), 'mock', generator());
 
       jest.runAllTimers();
       await promise;

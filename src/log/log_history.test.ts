@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import { createDebugLogger, enableLogs } from './debug.js';
 import { LogHistory } from './log_history.js';
 
-jest.useFakeTimers();
+jest.useFakeTimers({ doNotFake: ['performance'] });
 
 describe('log history', () => {
   let debug: (...any: any) => void;

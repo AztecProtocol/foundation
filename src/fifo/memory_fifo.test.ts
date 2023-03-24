@@ -9,7 +9,7 @@ describe('MemoryFifo', () => {
   let memoryFifo: MemoryFifo<number>;
 
   beforeAll(() => {
-    jest.useFakeTimers();
+    jest.useFakeTimers({ doNotFake: ['performance'] });
     jest.spyOn(global, 'setTimeout');
   });
 

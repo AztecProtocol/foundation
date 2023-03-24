@@ -14,7 +14,7 @@
     "build:dev": "tsc -b tsconfig.dest.json --watch",
     "clean": "rm -rf ./dest .tsbuildinfo",
     "formatting": "prettier --check ./src && eslint --max-warnings 0 ./src",
-    "test": "NODE_NO_WARNINGS=1 node --experimental-vm-modules $(yarn bin jest) --no-cache"
+    "test": "jest"
   },
   "jest": {
     "preset": "ts-jest/presets/default-esm",
