@@ -9,6 +9,5 @@ export * from './retry/index.js';
 export * from './sleep/index.js';
 export * from './serialize/index.js';
 export * from './transport/index.js';
-export * from './iso-fetch/index.js';
 export * from './crypto/index.js';
 export * from './running-promise/index.js';
