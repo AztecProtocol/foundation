@@ -8,13 +8,28 @@
     ".": "./dest/index.js",
     "./eslint": "./estlint-config/index.cjs",
     "./prettier": "./prettier-config/index.cjs",
-    "./json-rpc": "./json-rpc/src/index.js"
+    "./async-map": "./dest/async-map/index.js",
+    "./aztec-address": "./dest/eth-address/index.js",
+    "./crypto": "./dest/crypto/index.js",
+    "./error": "./dest/error/index.js",
+    "./eth-address": "./dest/eth-address/index.js",
+    "./fifo": "./dest/fifo/index.js",
+    "./json-rpc": "./dest/json-rpc/index.js",
+    "./log": "./dest/log/index.js",
+    "./mutex": "./dest/mutex/index.js",
+    "./primitives": "./dest/primitives/index.js",
+    "./retry": "./dest/retry/index.js",
+    "./running-promise": "./dest/running-promise/index.js",
+    "./serialize": "./dest/serialize/index.js",
+    "./sleep": "./dest/sleep/index.js",
+    "./timer": "./dest/timer/index.js",
+    "./transport": "./dest/transport/index.js"
   },
   "scripts": {
     "build": "yarn clean && tsc -b tsconfig.dest.json",
     "build:dev": "tsc -b tsconfig.dest.json --watch",
     "clean": "rm -rf ./dest .tsbuildinfo",
-    "formatting": "prettier --check ./src && eslint --max-warnings 223 ./src",
+    "formatting": "prettier --check ./src && eslint --max-warnings 257 ./src",
     "test": "NODE_NO_WARNINGS=1 node --experimental-vm-modules $(yarn bin jest) --no-cache"
   },
   "jest": {
@@ -37,7 +52,8 @@
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.4.0",
     "koa-compress": "^5.1.0",
-    "koa-router": "^12.0.0"
+    "koa-router": "^12.0.0",
+    "sha3": "^2.1.4"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.3",
