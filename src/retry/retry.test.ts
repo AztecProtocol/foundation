@@ -3,7 +3,7 @@ import { jest } from '@jest/globals';
 import { backoffGenerator, retry } from './index.js';
 import * as sleepModule from '../sleep/index.js';
 
-const TEST_VALUE = 'test-value-';
+const TEST_VALUE = 'test-value';
 
 describe('backoffGenerator', () => {
   let values: number[];
@@ -23,11 +23,13 @@ describe('backoffGenerator', () => {
 
 describe('retry', () => {
   describe('values', () => {
+    let iteration = 0;
+    const TIMEOUT = 1337;
     let generator: () => Generator<number, void, unknown>;
 
     function* mockGenerator() {
       while (true) {
-        yield 1;
+        yield TIMEOUT;
       }
     }
 
@@ -35,33 +37,40 @@ describe('retry', () => {
       generator = mockGenerator;
       jest.useFakeTimers({ doNotFake: ['performance'] });
       jest.spyOn(global, 'setTimeout');
-      jest.spyOn(sleepModule, 'sleep').mockImplementation((ms: number) => {
-        console.log('asdf');
-        return new Promise<void>(() => {});
+    });
+
+    describe('on success', () => {
+      it('should return values', async () => {
+        for (let i = 0; i < 5; i++) {
+          const result = await retry(
+            () => new Promise<string>(resolve => resolve(`${TEST_VALUE}${i}`)),
+            'mock',
+            generator(),
+          );
+          expect(result).toBe(`${TEST_VALUE}${i}`);
+        }
       });
     });
 
-    xit('should return values', async () => {
-      for (let i = 0; i < 5; i++) {
-        const result = await retry(
-          () => new Promise<string>(resolve => resolve(`${TEST_VALUE}${i}`)),
+    describe('on failure', () => {
+      it('should return values', async () => {
+        jest.spyOn(sleepModule, 'sleep').mockImplementationOnce((ms: number) => {
+          expect(ms).toBe(TIMEOUT * 1000);
+          return new Promise<string>(resolve => resolve('sleep-test'));
+        });
+        const promise = retry(
+          () =>
+            new Promise<string>((resolve, reject) => {
+              if (iteration === 0) reject('failure');
+              if (iteration === 1) resolve('success');
+              iteration++;
+            }),
           'mock',
           generator(),
         );
-        expect(result).toBe(`${TEST_VALUE}${i}`);
-      }
+        const result = await promise;
+        expect(result).toBe('success');
+      });
     });
-
-    it('should return values', async () => {
-      const promise = retry(() => new Promise<string>((_, reject) => reject(`${TEST_VALUE}`)), 'mock', generator());
-
-      jest.runAllTimers();
-      await promise;
-
-      // const result = await promise;
-      // expect(result).toBe(`${TEST_VALUE}`);
-    });
-
-    // TODO: test failures (needs jest.spyOn sleep)
   });
 });
