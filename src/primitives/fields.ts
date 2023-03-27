@@ -1,3 +1,4 @@
+import { BufferReader } from '../serialize/buffer_reader.js';
 import { numToUInt32BE } from '../serialize/index.js';
 
 abstract class Field {
@@ -39,8 +40,9 @@ export class Fr extends Field {
     return 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001n - 1n;
   }
 
-  static fromBuffer(buffer: Buffer) {
-    return new this(buffer);
+  static fromBuffer(buffer: Buffer | BufferReader) {
+    const reader = BufferReader.asReader(buffer);
+    return new this(reader.readBytes(this.SIZE_IN_BYTES));
   }
 }
 
@@ -54,7 +56,8 @@ export class Fq extends Field {
     return 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001n - 1n;
   }
 
-  static fromBuffer(buffer: Buffer) {
-    return new this(buffer);
+  static fromBuffer(buffer: Buffer | BufferReader) {
+    const reader = BufferReader.asReader(buffer);
+    return new this(reader.readBytes(this.SIZE_IN_BYTES));
   }
 }
