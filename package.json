@@ -23,7 +23,8 @@
     "./serialize": "./dest/serialize/index.js",
     "./sleep": "./dest/sleep/index.js",
     "./timer": "./dest/timer/index.js",
-    "./transport": "./dest/transport/index.js"
+    "./transport": "./dest/transport/index.js",
+    "./wasm": "./dest/wasm/index.js"
   },
   "scripts": {
     "build": "yarn clean && tsc -b tsconfig.dest.json",

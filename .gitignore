@@ -7,3 +7,4 @@ node_modules
 .tsbuildinfo
 .pnp.cjs
 .pnp.loader.mjs
+.yarn/
