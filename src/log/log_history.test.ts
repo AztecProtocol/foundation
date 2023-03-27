@@ -2,13 +2,18 @@ import { jest } from '@jest/globals';
 import { createDebugLogger, enableLogs } from './debug.js';
 import { LogHistory } from './log_history.js';
 
-jest.useFakeTimers({ doNotFake: ['performance'] });
-
 describe('log history', () => {
   let debug: (...any: any) => void;
   let logHistory: LogHistory;
-  const timestemp = new Date().toISOString();
+  let timestamp: string;
   const name = 'test:a';
+
+  beforeAll(() => {
+    jest.useFakeTimers({ doNotFake: ['performance'] });
+    jest.spyOn(global, 'setTimeout');
+    jest.setSystemTime(new Date(2023, 3, 27));
+    timestamp = new Date().toISOString();
+  });
 
   beforeEach(() => {
     debug = createDebugLogger(name);
@@ -23,9 +28,9 @@ describe('log history', () => {
     debug('1', 2);
     debug('2', { key: ['value'] }, Buffer.alloc(2));
     expect(logHistory.getLogs()).toEqual([
-      [timestemp, name, '0'],
-      [timestemp, name, '1', 2],
-      [timestemp, name, '2', { key: ['value'] }, Buffer.alloc(2)],
+      [timestamp, name, '0'],
+      [timestamp, name, '1', 2],
+      [timestamp, name, '2', { key: ['value'] }, Buffer.alloc(2)],
     ]);
   });
 
@@ -44,8 +49,8 @@ describe('log history', () => {
     debug('3');
     debug('4');
     expect(logHistory.getLogs(2)).toEqual([
-      [timestemp, name, '3'],
-      [timestemp, name, '4'],
+      [timestamp, name, '3'],
+      [timestamp, name, '4'],
     ]);
   });
 
@@ -55,15 +60,15 @@ describe('log history', () => {
     const debug2 = createDebugLogger(name2);
     debug('0');
     debug2('zero');
-    expect(logHistory.getLogs()).toEqual([[timestemp, name, '0']]);
+    expect(logHistory.getLogs()).toEqual([[timestamp, name, '0']]);
 
     enableLogs(`${name},${name2}`);
     debug('1', 2);
     debug2('one', 3);
     expect(logHistory.getLogs()).toEqual([
-      [timestemp, name, '0'],
-      [timestemp, name, '1', 2],
-      [timestemp, name2, 'one', 3],
+      [timestamp, name, '0'],
+      [timestamp, name, '1', 2],
+      [timestamp, name2, 'one', 3],
     ]);
   });
 
@@ -82,6 +87,11 @@ describe('log history', () => {
     debug('1');
     debug('2');
     logHistory.clear(2);
-    expect(logHistory.getLogs()).toEqual([[timestemp, name, '2']]);
+    expect(logHistory.getLogs()).toEqual([[timestamp, name, '2']]);
+  });
+
+  afterAll(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
   });
 });

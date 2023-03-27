@@ -73,4 +73,9 @@ describe('retry', () => {
       });
     });
   });
+
+  afterAll(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+  });
 });
