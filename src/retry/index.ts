@@ -1,5 +1,5 @@
-import { sleep } from '../sleep/index.js';
 import { Timer } from '../timer/index.js';
+import { sleep } from '../sleep/index.js';
 
 export function* backoffGenerator() {
   const v = [1, 1, 1, 2, 4, 8, 16, 32, 64];
