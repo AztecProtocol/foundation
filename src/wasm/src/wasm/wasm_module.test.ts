@@ -8,10 +8,10 @@ import { dirname } from 'path';
  */
 async function fetchCode() {
   const __dirname = dirname(fileURLToPath(import.meta.url));
-  return await readFile(`${__dirname}/../test/gcd.wasm`);
+  return await readFile(`${__dirname}/../fixtures/gcd.wasm`);
 }
 
-describe('barretenberg wasm', () => {
+describe('simple wasm', () => {
   let wasm!: WasmModule;
 
   beforeAll(async () => {

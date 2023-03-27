@@ -53,6 +53,9 @@
     "koa-bodyparser": "^4.4.0",
     "koa-compress": "^5.1.0",
     "koa-router": "^12.0.0",
+    "leveldown": "^6.1.1",
+    "levelup": "^5.1.1",
+    "memdown": "^6.1.1",
     "sha3": "^2.1.4"
   },
   "devDependencies": {
@@ -67,6 +70,9 @@
     "@types/koa-cors": "^0.0.2",
     "@types/koa-router": "^7.4.4",
     "@types/koa__cors": "^4.0.0",
+    "@types/leveldown": "^4.0.3",
+    "@types/levelup": "^5.1.2",
+    "@types/memdown": "^3.0.1",
     "@types/node": "^18.7.23",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.38.0",

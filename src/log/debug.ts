@@ -16,7 +16,17 @@ function theFunctionThroughWhichAllLogsPass(logger: any, ...args: any[]) {
   }
 }
 
-export function createDebugLogger(name: string) {
+/**
+ * A debug logger.
+ */
+export type DebugLogger = (...args: any[]) => void;
+
+/**
+ * Return a logger, meant to be silent by default and verbose during debugging.
+ * @param name - The module name of the logger.
+ * @returns A callable log function.
+ */
+export function createDebugLogger(name: string): DebugLogger {
   const logger = debug(name);
   return (...args: any[]) => theFunctionThroughWhichAllLogsPass(logger, ...args);
 }
