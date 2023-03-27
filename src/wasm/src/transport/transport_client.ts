@@ -1,14 +1,10 @@
-import { createDebugLogger } from "@aztec/foundation";
-import EventEmitter from "events";
-import {
-  EventMessage,
-  isEventMessage,
-  ResponseMessage,
-} from "./dispatch/messages.js";
-import { Connector } from "./interface/connector.js";
-import { Socket } from "./interface/socket.js";
+import { createDebugLogger } from '@aztec/foundation';
+import EventEmitter from 'events';
+import { EventMessage, isEventMessage, ResponseMessage } from './dispatch/messages.js';
+import { Connector } from './interface/connector.js';
+import { Socket } from './interface/socket.js';
 
-const debug = createDebugLogger("aztec:transport_client");
+const debug = createDebugLogger('aztec:transport_client');
 
 /**
  * A pending request.
@@ -26,8 +22,8 @@ interface PendingRequest {
  * Augments the TransportClient class with more precise EventEmitter types.
  */
 export interface TransportClient<Payload> extends EventEmitter {
-  on(name: "event_msg", handler: (payload: Payload) => void): this;
-  emit(name: "event_msg", payload: Payload): boolean;
+  on(name: 'event_msg', handler: (payload: Payload) => void): this;
+  emit(name: 'event_msg', payload: Payload): boolean;
 }
 
 /**
@@ -50,7 +46,7 @@ export class TransportClient<Payload> extends EventEmitter {
    */
   async open() {
     this.socket = await this.transportConnect.createSocket();
-    this.socket.registerHandler((msg) => this.handleSocketMessage(msg));
+    this.socket.registerHandler(msg => this.handleSocketMessage(msg));
   }
 
   /**
@@ -70,7 +66,7 @@ export class TransportClient<Payload> extends EventEmitter {
    */
   request(payload: Payload, transfer?: Transferable[]) {
     if (!this.socket) {
-      throw new Error("Socket not open.");
+      throw new Error('Socket not open.');
     }
     const msgId = this.msgId++;
     const msg = { msgId, payload };
@@ -85,9 +81,7 @@ export class TransportClient<Payload> extends EventEmitter {
    * Handle an incoming socket message.
    * @param msg - The message.
    */
-  private handleSocketMessage(
-    msg: ResponseMessage<Payload> | EventMessage<Payload> | undefined
-  ) {
+  private handleSocketMessage(msg: ResponseMessage<Payload> | EventMessage<Payload> | undefined) {
     if (msg === undefined) {
       // The remote socket closed.
       this.close();
@@ -95,12 +89,10 @@ export class TransportClient<Payload> extends EventEmitter {
     }
     debug(`<-`, msg);
     if (isEventMessage(msg)) {
-      this.emit("event_msg", msg.payload);
+      this.emit('event_msg', msg.payload);
       return;
     }
-    const reqIndex = this.pendingRequests.findIndex(
-      (r) => r.msgId === msg.msgId
-    );
+    const reqIndex = this.pendingRequests.findIndex(r => r.msgId === msg.msgId);
     if (reqIndex === -1) {
       return;
     }
